@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "ViewAllLeave";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+	<thead>
+		<tr>
+			<th>User name</th>
+			<th>Start Date</th>
+			<th>End Date</th>
+			<th>
+				Action
+			</th>
+		</tr>
+	</thead>
+	<tbody id="trDiv">
+	</tbody>
+</table>
+<script>
+    $(function () {
+		GetAllLeaves();
+    });
+	function GetAllLeaves() {
+        $.ajax({
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            type: 'Get',
+			url: "/Admin/GetAllLeaves",
+            success: function (data) {
+                $("#trDiv").html('');
+                var tdContent = '';
+                for(var i = 0; i < data.length; i++)
+                {
+					tdContent += '<tr><td>' + data[i].Username + '</td><td>' + data[i].LeaveStartDate + '</td>' + '<td>' + data[i].LeaveEndDate + '</td>'
+                }
+                $("#trDiv").append(tdContent);
+            },
+            error: function () {
+                alert("Error!")
+            }
+        });
+    }
+</script>
